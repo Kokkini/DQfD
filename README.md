@@ -15,9 +15,10 @@ Visit https://tech.morikatron.ai/entry/2020/04/15/100000 for the Morikatron's gr
 This algorithm is much faster than normal deep Q-learning and use very little demo data (5 to 10 episodes). After 1.5 million frames, it reached a mean score of 30 on Atari Breakout. Meanwhile, double DQN with prioritized experience replay takes 20 million frames.
 <br/>
 One of its best episode after 1.5 million steps:
-
 <br/>
-See [here]() for the full episode.
+![](https://github.com/Kokkini/DQfD/blob/master/gif/breakout-1.5M.gif)
+<br/>
+See [here](https://www.youtube.com/watch?v=nizP65Ithv8&feature=youtu.be) for the full episode.
 
 ## Setting up the environment
 Required libraries
