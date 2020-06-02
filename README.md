@@ -12,10 +12,10 @@ Visit https://tech.morikatron.ai/entry/2020/04/15/100000 for the Morikatron's gr
 <br/>
 ## Setting up the environment
 Required libraries
-・Tensorflow 2(tensorflow-gpu when using GPU)  
-・gym
-・tqdm
-・dill
+* Tensorflow 2(tensorflow-gpu when using GPU)  
+* gym
+* tqdm
+* dill
 
 
 If you don't use GPU, replace
@@ -56,14 +56,14 @@ Your demo will be saved in the ./data/demo directory.
 python make_demo.py --env=BreakoutNoFrameskip-v4
 ```
 ### How to collect demo episodes
-・w,s,a,d：move
-・SPACE: jump
-・Plus (+) on numpad: increase game speed
-・Minus (-) on numpad: decrease game speed
-・Each episode will be automatically saved when they end (done=True)
-・backspace：reset current episode without saving  
-・enter: save current episode and begin another episode (use this when you want to save the episode without waiting until the end of it)
-・esc：end the collection of demo episodes (the current episode will not be saved)
+* w,s,a,d：move
+* SPACE: jump
+* Plus (+) on numpad: increase game speed
+* Minus (-) on numpad: decrease game speed
+* Each episode will be automatically saved when they end (done=True)
+* backspace：reset current episode without saving  
+* enter: save current episode and begin another episode (use this when you want to save the episode without waiting until the end of it)
+* esc：end the collection of demo episodes (the current episode will not be saved)
 <br/>
 
 After collecting demo episodes, run run_atari.py to start learning:
