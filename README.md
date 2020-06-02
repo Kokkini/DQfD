@@ -1,7 +1,9 @@
 # Deep Q-Learning from Demonstrations
 This repo replicates the results Hester et al. obtained:
 [Deep Q-Learning from Demonstraitions](https://arxiv.org/abs/1704.03732 "Deep Q-Learning from Demonstraitions")  
+<br/>
 This repo is based on the fantastic repo from [Morikatron/DQfD](https://github.com/morikatron/DQfD)
+<br/>
 This code is based on code from OpenAI baselines. The original code and related paper from OpenAI can be found [here](https://github.com/openai/baselines "here").
 <br/>
 The algorithms, hyperparameters, etc. are based on the paper as much as possible.
@@ -10,10 +12,10 @@ Visit https://tech.morikatron.ai/entry/2020/04/15/100000 for the Morikatron's gr
 <br/>
 ## Setting up the environment
 Required libraries
-- Tensorflow 2(tensorflow-gpu when using GPU)  
-- gym
-- tqdm
-- dill
+・Tensorflow 2(tensorflow-gpu when using GPU)  
+・gym
+・tqdm
+・dill
 
 
 If you don't use GPU, replace
@@ -43,6 +45,7 @@ pip install tensorflow-2.0
 (pip install tensorflow-gpu)
 pip install gym
 pip install tqdm
+pip install dill
 ```
 
 
@@ -70,9 +73,12 @@ python run_atari.py --pre_train_timesteps=1e5 --num_timesteps=4e6
 
 ## Demo data
 If you don't want to create your own demo data, you can download the following demo data.
+<br/>
 My demo data for 7 episodes of Breakout (my max score is 30):  
 https://drive.google.com/file/d/15pXp-kwY_wFn2Eq6XRZkgQxdXLvZwcNn/view?usp=sharing
+<br/>
 Place the pkl file of the link in the DQfD/data/demo directory. You can now start training without collecting your own demo episodes.
+<br/>
 
 ## If an error occurs on MacOS
 When OMP: Error appears on MacOS, add the following to the head of dqfd.py
