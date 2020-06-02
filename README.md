@@ -10,6 +10,7 @@ The algorithms, hyperparameters, etc. are based on the paper as much as possible
 <br/>
 Visit https://tech.morikatron.ai/entry/2020/04/15/100000 for the Morikatron's great blog post about this algorithm.
 <br/>
+
 ## Setting up the environment
 Required libraries
 * Tensorflow 2(tensorflow-gpu when using GPU)  
@@ -27,6 +28,7 @@ in dqfd.py with
 with tf.device('/CPU:0'):"
 ```
 <br/>
+
 ### Ubuntu setup example
 Clone repo:
 ```python:
@@ -56,6 +58,7 @@ Your demo will be saved in the ./data/demo directory.
 python make_demo.py --env=BreakoutNoFrameskip-v4
 ```
 ### How to collect demo episodes
+
 * w,s,a,d：move
 * SPACE: jump
 * Plus (+) on numpad: increase game speed
