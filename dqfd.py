@@ -4,6 +4,7 @@ from tqdm import tqdm
 from time import time
 from collections import deque
 import pickle
+import dill
 import tensorflow as tf
 import numpy as np
 
@@ -30,7 +31,7 @@ def get_n_step_sample(buffer, gamma):
     is_demo    = buffer[0][5]
     n_step_obs = buffer[-1][3]
     done_n     = buffer[-1][4]
-    return obs[0], action, rew, new_obs[0], float(done), float(is_demo), n_step_obs[0], reward_n, done_n
+    return obs, action, rew, new_obs, float(done), float(is_demo), n_step_obs, reward_n, done_n
 
 
 def learn(env,
@@ -95,7 +96,7 @@ def learn(env,
     # Setup demo trajectory
     assert demo_path is not None
     with open(demo_path, "rb") as f:
-        trajectories = pickle.load(f)
+        trajectories = dill.load(f)
 
     # Create the replay buffer
     replay_buffer = PrioritizedReplayBuffer(buffer_size, prioritized_replay_alpha)
@@ -117,7 +118,7 @@ def learn(env,
                     replay_buffer.add(*n_step_sample)
             else:
                 replay_buffer.demo_len += 1
-                replay_buffer.add(obs[0], action, rew, new_obs[0], float(done), float(is_demo))
+                replay_buffer.add(obs, action, rew, new_obs, float(done), float(is_demo))
     logger.log("trajectory length:", replay_buffer.demo_len)
     # Create the schedule for exploration
     if epsilon_schedule == "constant":
@@ -205,14 +206,13 @@ def learn(env,
         new_obs, rew, done, _ = env.step(action)
 
         # Store transition in the replay buffer.
-        new_obs = np.expand_dims(np.array(new_obs), axis=0)
         if n_step:
             temp_buffer.append((obs, action, rew, new_obs, done, is_demo))
             if len(temp_buffer) == n_step:
                 n_step_sample = get_n_step_sample(temp_buffer, gamma)
                 replay_buffer.add(*n_step_sample)
         else:
-            replay_buffer.add(obs[0], action, rew, new_obs[0], float(done), 0.)
+            replay_buffer.add(obs, action, rew, new_obs, float(done), 0.)
         obs = new_obs
 
         # invert log scaled score for logging

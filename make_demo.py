@@ -8,6 +8,8 @@ import pickle
 from gym import logger
 from run_atari import make_env
 import numpy as np
+import dill
+
 """
 backspace: このエピソードの行動軌跡を保存せずリセット(reset this episode without saving trajectories)
 return:    このエピソードの行動軌跡を保存してリセット(reset this episode with saving trajectories)
@@ -126,7 +128,7 @@ def play(env, transpose=True, fps=30, zoom=None, callback=None, keys_to_action=N
             obs, rew, env_done, info = env.step(action)
             if callback is not None:
                 callback(prev_obs, obs, action, rew, env_done, info)
-            episode_trajectory.append((np.array(prev_obs), np.array(action, dtype='int64'), rew, np.array(obs), env_done))
+            episode_trajectory.append((prev_obs, np.array(action, dtype='int64'), rew, obs, env_done))
         if obs is not None:
             rendered = env.render(mode='rgb_array')
             display_arr(screen, rendered, transpose=transpose, video_size=video_size)
@@ -216,7 +218,7 @@ def main():
     if len(trajectories) != 0:
         os.makedirs(dir_path, exist_ok=True)
         with open(os.path.join(dir_path, task_name), mode="wb") as f:
-            pickle.dump(trajectories, f)
+            dill.dump(trajectories, f)
 
 if __name__ == '__main__':
     main()
