@@ -18,6 +18,8 @@ One of its best episode after 1.5 million steps:
 <br/>
 ![](https://github.com/Kokkini/DQfD/blob/master/gif/breakout-1.5M.gif)
 <br/>
+It dug a tunnel through the bricks, which I never did in my demo.
+<br/>
 See [here](https://www.youtube.com/watch?v=nizP65Ithv8&feature=youtu.be) for the full episode.
 
 ## Setting up the environment
