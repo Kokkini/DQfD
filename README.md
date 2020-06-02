@@ -1,92 +1,82 @@
-# Replication of DQfD(Deep Q-Learning from Demonstrations)
+# Deep Q-Learning from Demonstrations
 This repo replicates the results Hester et al. obtained:
 [Deep Q-Learning from Demonstraitions](https://arxiv.org/abs/1704.03732 "Deep Q-Learning from Demonstraitions")  
-This code is based on code from OpenAI baselines. The original code and related paper from OpenAI can be found [here](https://github.com/openai/baselines "here").  
+This repo is based on the fantastic repo from [Morikatron/DQfD](https://github.com/morikatron/DQfD)
+This code is based on code from OpenAI baselines. The original code and related paper from OpenAI can be found [here](https://github.com/openai/baselines "here").
 <br/>
-このリポジトリはHesterらによるDeep Q-Learning from Demonstrations(DQfD)を再現実装したものです。  
-アルゴリズムやハイパーパラメータなどはできる限り論文をもとにしていますが、完全に同じパフォーマンスを再現することはできません。  
+The algorithms, hyperparameters, etc. are based on the paper as much as possible.
 <br/>
-このコードはOpenAI baselinesに基づいて実装されています。  
-オリジナルのコードやそれに関連する論文については[こちら](https://github.com/openai/baselines "こちら")を参照してください。  
-このアルゴリズムに関するブログは[こちら](https://tech.morikatron.ai/entry/2020/04/15/100000)を参照してください。  
+Visit https://tech.morikatron.ai/entry/2020/04/15/100000 for the Morikatron's great blog post about this algorithm.
 <br/>
-## 環境のセットアップについて
-必要なライブラリは  
-・Tensorflow2(GPUを使用する場合tensorflow-gpu)  
-・gym  
-・gym[atari]  
-・tqdm  
-です。  
-(GPUを使用しない場合はdqfd.pyの71行目  
-with tf.device('/GPU:0'):  
-を  
-with tf.device('/CPU:0'):  
-と書き換えてください。)  
-<br/>
-### Ubuntu 18.04でのセットアップ例
-リポジトリをクローン
+## Setting up the environment
+Required libraries
+- Tensorflow 2(tensorflow-gpu when using GPU)  
+- gym
+- tqdm
+- dill
+
+
+If you don't use GPU, replace
 ```python:
-git clone https://github.com/morikatron/DQfD.git
+"with tf.device('/GPU:0'):
+```
+in dqfd.py with
+```python:
+with tf.device('/CPU:0'):"
+```
+<br/>
+### Ubuntu setup example
+Clone repo:
+```python:
+git clone https://github.com/Kokkini/DQfD.git
 ```
 
-仮想環境を作成してアクティベート
+Create and active virtual environment
 ```python:
 conda create -n DQfDenv
 conda activate DQfDenv
 ```
 
-必要なライブラリをインストール
+Install required libraries
 ```python:
-conda install tensorflow-2.0
-(conda install tensorflow-gpu)
-
+pip install tensorflow-2.0
+(pip install tensorflow-gpu)
 pip install gym
-pip install gym[atari]
-(エラーが出る場合は pip install 'gym[atari]')
 pip install tqdm
 ```
 
 
-## 使い方
-まずmake_demo.pyを実行してデモを作成します。  
-作成したデモは./data/demoディレクトリに保存されます。  
-例
+## How to use
+First, run make_demo.py to create a demo.
+Your demo will be saved in the ./data/demo directory.
 ```python:
-python make_demo.py --env=MontezumaRevengeNoFrameskip-v4
+python make_demo.py --env=BreakoutNoFrameskip-v4
 ```
-### 操作方法  
-・w,s,a,d：上下左右に移動  
-・SPACE：ジャンプ  
-・backspace：このエピソードの行動軌跡を保存せずリセット  
-・return：このエピソードの行動軌跡を保存してリセット  
-・esc：このエピソードの行動軌跡を保存せずゲームを終了  
+### How to collect demo episodes
+・w,s,a,d：move
+・SPACE: jump
+・Plus (+) on numpad: increase game speed
+・Minus (-) on numpad: decrease game speed
+・Each episode will be automatically saved when they end (done=True)
+・backspace：reset current episode without saving  
+・enter: save current episode and begin another episode (use this when you want to save the episode without waiting until the end of it)
+・esc：end the collection of demo episodes (the current episode will not be saved)
 <br/>
-デモの作成が完了したらrun_atari.pyを実行して学習を開始します。  
-```python:
-python run_atari.py
-```
-### run_atari.pyの引数  
-コマンドライン引数で学習時の設定を指定することができます。  
-・env : 学習を行う環境(デフォルトはMontezumaRevengeNoFrameskip-v4 必ずデモの環境と同じものを指定してください)  
-・pre_train_timesteps：事前学習を行うステップ数(デフォルトは75万)  
-・num_timesteps：(事前学習を除く)学習を行う総ステップ数(デフォルトは100万)  
-・demo_path：デモデータが保存してあるパス  
-・play：学習後にプレイを実行  
-例
-```python:
-python run_atari.py  --pre_train_timesteps=1e6 --num_timesteps=1e7 
-```
-他のパラメータについてはrun_atari.pyのmain()関数をご確認ください。
 
-## デモデータ
-Montezuma's Revengeでステージ1をクリアした5エピソード分のデモデータを以下のリンク先に置いておきます。(サイズが906MBと大きいので注意です)  
-https://drive.google.com/file/d/1bxfIkqxjiJKH9Pg2a8ZRMIheX7wypEJL/view?usp=sharing  
-リンク先のpklファイルをDQfD/data/demoディレクトリに配置することでデモを作成せずに学習を開始することができます。
+After collecting demo episodes, run run_atari.py to start learning:
+```python:
+python run_atari.py --pre_train_timesteps=1e5 --num_timesteps=4e6
+```
 
-## Mac OSでエラーが出る場合
-Mac OSでOMP: Errorが出る場合、dqfd.pyの頭に  
+## Demo data
+If you don't want to create your own demo data, you can download the following demo data.
+My demo data for 7 episodes of Breakout (my max score is 30):  
+https://drive.google.com/file/d/15pXp-kwY_wFn2Eq6XRZkgQxdXLvZwcNn/view?usp=sharing
+Place the pkl file of the link in the DQfD/data/demo directory. You can now start training without collecting your own demo episodes.
+
+## If an error occurs on MacOS
+When OMP: Error appears on MacOS, add the following to the head of dqfd.py
 ```python:
 import os
 os.environ['KMP_DUPLICATE_LIB_OK']='TRUE'
 ```
-を加えてください。(他の解決方法をご存じであれば教えていただけるとありがたいです。)
