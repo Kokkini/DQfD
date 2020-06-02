@@ -11,10 +11,10 @@ import numpy as np
 import dill
 
 """
-backspace: このエピソードの行動軌跡を保存せずリセット(reset this episode without saving trajectories)
-return:    このエピソードの行動軌跡を保存してリセット(reset this episode with saving trajectories)
-esc:       このエピソードの行動軌跡を保存せずゲームを終了(quit game without saving trajectories)
-keypad plus: increase game's speed
+backspace:    reset this episode without saving trajectories)
+return:       reset this episode with saving trajectories)
+esc:          quit game without saving trajectories)
+keypad plus:  increase game's speed
 keypad minus: decrease game's speed
 """
 

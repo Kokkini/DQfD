@@ -109,7 +109,6 @@ def learn(env,
     is_demo = True
     for epi in trajectories:
         for obs, action, rew, new_obs, done in epi:
-            obs, new_obs = np.expand_dims(np.array(obs), axis=0), np.expand_dims(np.array(new_obs), axis=0)
             if n_step:
                 temp_buffer.append((obs, action, rew, new_obs, done, is_demo))
                 if len(temp_buffer) == n_step:
@@ -184,7 +183,7 @@ def learn(env,
     is_demo = False
     obs = env.reset()
     # Always mimic the vectorized env
-    obs = np.expand_dims(np.array(obs), axis=0)
+    # obs = np.expand_dims(np.array(obs), axis=0)
     reset = True
     for t in tqdm(range(total_timesteps)):
         if callback is not None:
@@ -200,7 +199,7 @@ def learn(env,
             kwargs['reset'] = reset
             kwargs['update_param_noise_threshold'] = update_param_noise_threshold
             kwargs['update_param_noise_scale'] = True
-        action, epsilon, _, _ = model.step(tf.constant(obs), update_eps=update_eps, **kwargs)
+        action, epsilon, _, _ = model.step(tf.constant(np.expand_dims(obs,0)), update_eps=update_eps, **kwargs)
         action = action[0].numpy()
         reset = False
         new_obs, rew, done, _ = env.step(action)
@@ -220,7 +219,7 @@ def learn(env,
         if done:
             num_episodes += 1
             obs = env.reset()
-            obs = np.expand_dims(np.array(obs), axis=0)
+            # obs = np.expand_dims(np.array(obs), axis=0)
             episode_rewards.append(this_episode_reward)
             reset = True
             if this_episode_reward > best_score:
