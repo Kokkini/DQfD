@@ -11,6 +11,14 @@ The algorithms, hyperparameters, etc. are based on the paper as much as possible
 Visit https://tech.morikatron.ai/entry/2020/04/15/100000 for the Morikatron's great blog post about this algorithm.
 <br/>
 
+## Benefit over normal Q-learning
+This algorithm is much faster than normal deep Q-learning and use very little demo data (5 to 10 episodes). After 1.5 million frames, it reached a mean score of 30 on Atari Breakout. Meanwhile, double DQN with prioritized experience replay takes 20 million frames.
+<br/>
+One of its best episode after 1.5 million steps:
+
+<br/>
+See [here]() for the full episode.
+
 ## Setting up the environment
 Required libraries
 * Tensorflow 2(tensorflow-gpu when using GPU)  
