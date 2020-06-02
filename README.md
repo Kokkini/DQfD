@@ -16,7 +16,7 @@ This algorithm is much faster than normal deep Q-learning and use very little de
 <br/>
 One of its best episode after 1.5 million steps:
 <br/>
-![](gif/breakout-1.5M.gif)
+![](https://github.com/Kokkini/DQfD/blob/master/gif/breakout-1.5M.gif)
 <br/>
 See [here](https://www.youtube.com/watch?v=nizP65Ithv8&feature=youtu.be) for the full episode.
 
