@@ -25,6 +25,8 @@ def train(args):
         pre_train_timesteps=pre_train_timesteps,
         load_path=args.load_path,
         demo_path=args.demo_path,
+        buffer_size=1000000,
+        batch_size=128
     )
 
     return model, env
