@@ -15,7 +15,7 @@ def train(args):
 
     env = make_env(args.env, args.seed, args.max_episode_steps, wrapper_kwargs={'frame_stack': True})
     if args.save_video_interval != 0:
-        env = Monitor(env, osp.join(logger.get_dir(), "videos"), video_callable=(lambda ep: ep % 1 == 0), force=True)
+        env = Monitor(env, osp.join(logger.get_dir(), "videos"), video_callable=(lambda ep: ep % save_video_interval == 0), force=True)
     model = dqfd.learn(
         env=env,
         network='cnn',
@@ -25,8 +25,10 @@ def train(args):
         pre_train_timesteps=pre_train_timesteps,
         load_path=args.load_path,
         demo_path=args.demo_path,
-        buffer_size=1000000,
-        batch_size=128
+        buffer_size=int(args.buffer_size),
+        batch_size=args.batch_size,
+        exploration_fraction=args.exploration_fraction,
+        exploration_final_eps=args.exploration_final_eps
     )
 
     return model, env
@@ -42,20 +44,25 @@ def make_env(env_id, seed=None, max_episode_steps=None, wrapper_kwargs=None):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--env', help='environment ID', type=str, default='MontezumaRevengeNoFrameskip-v4')
+    parser.add_argument('--env', help='environment ID', type=str, default='BreakoutNoFrameskip-v4')
     parser.add_argument('--env_type', help='type of environment, used when the environment type cannot be automatically determined', type=str, default='atari')
     parser.add_argument('--seed', help='RNG seed', type=int, default=None)
-    parser.add_argument('--num_timesteps', help='', type=float, default=1e6)
-    parser.add_argument('--pre_train_timesteps', help='', type=float, default=750000)
+    parser.add_argument('--num_timesteps', help='', type=float, default=2e6)
+    parser.add_argument('--pre_train_timesteps', help='', type=float, default=100000)
     parser.add_argument('--max_episode_steps', help='', type=int, default=10000)
     parser.add_argument('--network', help='', type=str, default='cnn')
     parser.add_argument('--save_path', help='Path to save trained model to', default='data/temp', type=str)
     parser.add_argument('--load_path', help='Path to load trained model to', default='data/temp', type=str)
-    parser.add_argument('--save_video_interval', help='Save video every x steps (0 = disabled)', default=0, type=int)
+    parser.add_argument('--save_video_interval', help='Save video every x episodes (0 = disabled)', default=10, type=int)
     parser.add_argument('--save_video_length', help='Length of recorded video. Default: 2000', default=2000, type=int)
-    parser.add_argument('--demo_path', help='Directory to save learning curve data.', default="data/demo/human.MontezumaRevengeNoFrameskip-v4.pkl", type=str)
+    parser.add_argument('--demo_path', help='Directory to save learning curve data.', default="data/demo/human.BreakoutNoFrameskip-v4.pkl", type=str)
     parser.add_argument('--log_path', help='Path to save log to', default='data/logs', type=str)
     parser.add_argument('--play', default=False, action='store_true')
+    parser.add_argument('--batch_size', help='batch size for both pretraining and training', type=int, default=64)
+    parser.add_argument('--buffer_size', help='experience replay buffer size', type=float, default=5e5)
+    parser.add_argument('--exploration_fraction', help='anneal exploration epsilon for this fraction of total training steps', type=float, default=0.1)
+    parser.add_argument('--exploration_final_eps', help='exploration epsilon after annealing', type=float, default=0.1)
+    
     args = parser.parse_args()
 
     logger.configure(args.log_path)
