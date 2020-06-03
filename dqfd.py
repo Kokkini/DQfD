@@ -40,7 +40,7 @@ def learn(env,
           lr=5e-5,
           total_timesteps=100000,
           buffer_size=500000,
-          exploration_fraction=0.1,
+          exploration_fraction=0.05,
           exploration_final_eps=0.1,
           train_freq=4,
           batch_size=32,
@@ -63,7 +63,7 @@ def learn(env,
           n_step=10,
           demo_prioritized_replay_eps=1.0,
           pre_train_timesteps=750000,
-          epsilon_schedule="constant",
+          epsilon_schedule="linear",
           **network_kwargs
           ):
     # Create all the functions necessary to train the model
