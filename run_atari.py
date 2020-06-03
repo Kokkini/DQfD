@@ -15,7 +15,7 @@ def train(args):
 
     env = make_env(args.env, args.seed, args.max_episode_steps, wrapper_kwargs={'frame_stack': True})
     if args.save_video_interval != 0:
-        env = Monitor(env, osp.join(logger.get_dir(), "videos"), video_callable=(lambda ep: ep % save_video_interval == 0), force=True)
+        env = Monitor(env, osp.join(logger.get_dir(), "videos"), video_callable=(lambda ep: ep % args.save_video_interval == 0), force=True)
     model = dqfd.learn(
         env=env,
         network='cnn',
