@@ -28,7 +28,8 @@ def train(args):
         buffer_size=int(args.buffer_size),
         batch_size=args.batch_size,
         exploration_fraction=args.exploration_fraction,
-        exploration_final_eps=args.exploration_final_eps
+        exploration_final_eps=args.exploration_final_eps,
+        epsilon_schedule=args.epsilon_schedule
     )
 
     return model, env
@@ -62,7 +63,7 @@ def main():
     parser.add_argument('--buffer_size', help='experience replay buffer size', type=float, default=5e5)
     parser.add_argument('--exploration_fraction', help='anneal exploration epsilon for this fraction of total training steps', type=float, default=0.1)
     parser.add_argument('--exploration_final_eps', help='exploration epsilon after annealing', type=float, default=0.1)
-    
+    parser.add_argument('--epsilon_schedule', help='linear or constant', type=str, default='constant')
     args = parser.parse_args()
 
     logger.configure(args.log_path)

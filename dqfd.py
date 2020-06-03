@@ -63,7 +63,7 @@ def learn(env,
           n_step=10,
           demo_prioritized_replay_eps=1.0,
           pre_train_timesteps=750000,
-          epsilon_schedule="linear",
+          epsilon_schedule="constant",
           **network_kwargs
           ):
     # Create all the functions necessary to train the model
