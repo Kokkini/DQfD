@@ -37,7 +37,7 @@ def get_n_step_sample(buffer, gamma):
 def learn(env,
           network,
           seed=None,
-          lr=5e-5,
+          lr=5e-4,
           total_timesteps=100000,
           buffer_size=500000,
           exploration_fraction=0.05,
