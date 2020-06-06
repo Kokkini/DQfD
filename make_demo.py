@@ -102,12 +102,23 @@ def play(env, transpose=True, fps=30, zoom=None, callback=None, keys_to_action=N
         video_size = int(video_size[0] * zoom), int(video_size[1] * zoom)
 
     pressed_keys = []
-    running = True
+    running = False
+
+
     env_done = True
     save_trajectory = True
 
     screen = pygame.display.set_mode(video_size)
     clock = pygame.time.Clock()
+    env.reset()
+    rendered = env.render(mode='rgb_array')
+    display_arr(screen, rendered, transpose=transpose, video_size=video_size)
+    pygame.display.flip()
+    while not running:
+        for event in pygame.event.get():
+            # test events, set key states
+            if event.type == pygame.KEYUP and event.key==pygame.K_SPACE:
+                running = True
 
     trajectories = []
     episode_trajectory = []
@@ -206,13 +217,14 @@ class PlayPlot(object):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--env', type=str, default='MontezumaRevengeNoFrameskip-v4', help='Define Environment')
-    parser.add_argument('--fps', type=int, default=20, help='Game fps')
+    parser.add_argument('--env', type=str, default='BreakoutNoFrameskip-v4', help='Define Environment')
+    parser.add_argument('--fps', type=int, default=10, help='Game fps')
     parser.add_argument('--seed', type=int, default=None, help='Game seed')
     args = parser.parse_args()
     dir_path = "data/demo"
-    task_name = "human." + args.env + ".pkl"
-    env = make_env(args.env, seed=args.seed, wrapper_kwargs={'frame_stack': True})
+    task_name = "human." + args.env + ".episodic.pkl"
+    # env = make_env(args.env, seed=args.seed, wrapper_kwargs={'frame_stack': True})
+    env = make_env(args.env, seed=args.seed, wrapper_kwargs={'frame_stack': True, 'episode_life': True})
     trajectories = play(env, zoom=4, fps=args.fps)
     print("num episodes", len(trajectories))
     if len(trajectories) != 0:

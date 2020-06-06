@@ -13,7 +13,7 @@ def train(args):
     pre_train_timesteps = int(args.pre_train_timesteps)
     seed = args.seed
 
-    env = make_env(args.env, args.seed, args.max_episode_steps, wrapper_kwargs={'frame_stack': True})
+    env = make_env(args.env, args.seed, args.max_episode_steps, wrapper_kwargs={'frame_stack': True, 'episode_life': True})
     if args.save_video_interval != 0:
         env = Monitor(env, osp.join(logger.get_dir(), "videos"), video_callable=(lambda ep: ep % args.save_video_interval == 0), force=True)
     model = dqfd.learn(
@@ -30,8 +30,7 @@ def train(args):
         exploration_fraction=args.exploration_fraction,
         exploration_final_eps=args.exploration_final_eps,
         epsilon_schedule=args.epsilon_schedule,
-        lr=args.lr
-    )
+        lr=args.lr)
 
     return model, env
 
