@@ -168,7 +168,7 @@ def learn(env,
             logger.record_tabular("loss_margin", np.mean(loss_E.numpy()))
             logger.record_tabular("loss_l2", np.mean(loss_l2.numpy()))
             logger.record_tabular("losses_all", weighted_error.numpy())
-            logger.record_tabular("% time spent exploring", int(100 * exploration.value(t)))
+            logger.record_tabular("% time spent exploring", int(100 * exploration.value(0)))
             logger.record_tabular("pre_train", True)
             logger.record_tabular("elapsed time", elapsed_time)
             logger.dump_tabular()

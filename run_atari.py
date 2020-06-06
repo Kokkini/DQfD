@@ -63,7 +63,7 @@ def main():
     parser.add_argument('--buffer_size', help='experience replay buffer size', type=float, default=5e5)
     parser.add_argument('--exploration_fraction', help='anneal exploration epsilon for this fraction of total training steps', type=float, default=0.1)
     parser.add_argument('--exploration_final_eps', help='exploration epsilon after annealing', type=float, default=0.1)
-    parser.add_argument('--epsilon_schedule', help='linear or constant', type=str, default='constant')
+    parser.add_argument('--epsilon_schedule', help='linear or constant', type=str, default='linear')
     parser.add_argument('--lr', help='learning rate', type=float, default=5e-4)
     args = parser.parse_args()
 
