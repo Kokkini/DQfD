@@ -56,7 +56,7 @@ def main():
     parser.add_argument('--load_path', help='Path to load trained model to', default='data/temp', type=str)
     parser.add_argument('--save_video_interval', help='Save video every x episodes (0 = disabled)', default=10, type=int)
     parser.add_argument('--save_video_length', help='Length of recorded video. Default: 2000', default=2000, type=int)
-    parser.add_argument('--demo_path', help='Directory to save learning curve data.', default="data/demo/human.BreakoutNoFrameskip-v4.pkl", type=str)
+    parser.add_argument('--demo_path', help='Directory to save learning curve data.', default="data/demo/human.BreakoutNoFrameskip-v4.episodic.pkl", type=str)
     parser.add_argument('--log_path', help='Path to save log to', default='data/logs', type=str)
     parser.add_argument('--play', default=False, action='store_true')
     parser.add_argument('--batch_size', help='batch size for both pretraining and training', type=int, default=64)

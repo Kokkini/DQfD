@@ -29,8 +29,8 @@ class ReplayBuffer(object):
 
     def _encode_sample(self, idxes):
         data = self._storage[0]
-        ob_dtype = data[0].dtype
-        ac_dtype = data[1].dtype
+        # ob_dtype = data[0].dtype
+        # ac_dtype = data[1].dtype
         obses_t, actions, rewards, obses_tp1, dones, is_demos, obses_tpn, rewards_n, dones_n = [], [], [], [], [], [], [], [], []
         for i in idxes:
             data = self._storage[i]
@@ -46,13 +46,13 @@ class ReplayBuffer(object):
             rewards_n.append(reward_n)
             dones_n.append(done_n)
         if data[6] is None:
-            return np.array(obses_t, dtype=ob_dtype), np.array(actions, dtype=ac_dtype), np.array(rewards, dtype=np.float32), \
-                   np.array(obses_tp1, dtype=ob_dtype), np.array(dones, dtype=np.float32), np.array(is_demos, dtype=np.float32), \
+            return np.array(obses_t), np.array(actions), np.array(rewards, dtype=np.float32), \
+                   np.array(obses_tp1), np.array(dones, dtype=np.float32), np.array(is_demos, dtype=np.float32), \
                    None, None, None
         else:
-            return np.array(obses_t, dtype=ob_dtype), np.array(actions, dtype=ac_dtype), np.array(rewards, dtype=np.float32), \
-                   np.array(obses_tp1, dtype=ob_dtype), np.array(dones, dtype=np.float32), np.array(is_demos, dtype=np.float32), \
-                   np.array(obses_tpn, dtype=ob_dtype), np.array(rewards_n, dtype=np.float32), np.array(dones_n, dtype=np.float32)
+            return np.array(obses_t), np.array(actions), np.array(rewards, dtype=np.float32), \
+                   np.array(obses_tp1), np.array(dones, dtype=np.float32), np.array(is_demos, dtype=np.float32), \
+                   np.array(obses_tpn), np.array(rewards_n, dtype=np.float32), np.array(dones_n, dtype=np.float32)
 
     def sample(self, batch_size):
         idxes = [random.randint(0, len(self._storage) - 1) for _ in range(batch_size)]
