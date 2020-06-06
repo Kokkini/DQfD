@@ -30,7 +30,8 @@ def train(args):
         exploration_fraction=args.exploration_fraction,
         exploration_final_eps=args.exploration_final_eps,
         epsilon_schedule=args.epsilon_schedule,
-        lr=args.lr)
+        lr=args.lr,
+        print_freq=args.print_freq)
 
     return model, env
 
@@ -65,6 +66,7 @@ def main():
     parser.add_argument('--exploration_final_eps', help='exploration epsilon after annealing', type=float, default=0.1)
     parser.add_argument('--epsilon_schedule', help='linear or constant', type=str, default='linear')
     parser.add_argument('--lr', help='learning rate', type=float, default=5e-4)
+    parser.add_argument('--print_freq', help='print every x episodes', type=int, default=100)
     args = parser.parse_args()
 
     logger.configure(args.log_path)
